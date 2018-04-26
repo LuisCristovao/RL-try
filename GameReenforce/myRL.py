@@ -89,7 +89,9 @@ class Brain:
        
     def SelectBestAction(self,state):
         #print('nearest state output',self.SelectNearestState(state))
-        nearest_state,viable=self.SelectNearestState(state) 
+        nearest_state,viable=self.SelectNearestState(state)
+        print('nearest state',nearest_state)
+        print('viable',viable)
         if viable:
             actions=self.brain[nearest_state]
             #get action with highest reward
@@ -194,7 +196,7 @@ while n_games<max_games_num:
             #0-8
             #p1_action=int(input("Move: "))#A:0-2;D:3-5;P:A:6,D:7,8:H;
             p1_action=brain1.DoAction(game_state,1)
-            p2_action=brain2.DoAction(game_state,0)
+            p2_action=brain2.DoAction(game_state,0.1)
             #save prev state
             game_enviroment.prev_goodStatus=[game_enviroment.goodStatus[0],game_enviroment.goodStatus[1],game_enviroment.goodStatus[2]]
             game_enviroment.prev_evilStatus=[game_enviroment.evilStatus[0],game_enviroment.evilStatus[1],game_enviroment.evilStatus[2]]
@@ -238,6 +240,7 @@ while n_games<max_games_num:
         for i in range(len(value)):
             a=Action(value[i].action)
             brain2.SaveMemory(game_state,a)
+            
     
     n_games+=1
     print('\nNewGame',n_games)
@@ -252,12 +255,12 @@ for key in brain1.brain:
     value=brain1.brain[key]
     for i in range(len(value)):
         print(key,value[i].action,value[i].reward)
-       
+ '''      
 print('\n')         
 for key in brain2.brain:
     value=brain2.brain[key]
     for i in range(len(value)):
         print(key,value[i].action,value[i].reward)        
-'''
+
 
         
