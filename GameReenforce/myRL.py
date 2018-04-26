@@ -180,7 +180,9 @@ def Evaluate(status1,status2):
             return True
 '''        
 n_games=0
-max_games_num=2000
+max_games_num=100
+goodwins=0
+evilwins=0
 while n_games<max_games_num:
     Game=True
     game_enviroment=Env.Enviroment()
@@ -190,9 +192,9 @@ while n_games<max_games_num:
             game_state=(game_enviroment.goodStatus[0],game_enviroment.goodStatus[1],game_enviroment.goodStatus[2],game_enviroment.evilStatus[0],game_enviroment.evilStatus[1],game_enviroment.evilStatus[2])
             print(game_state)
             #0-8
-            p1_action=int(input("Move: "))#A:0-2;D:3-5;P:A:6,D:7,8:H;
-            #p1_action=brain1.DoAction(game_state,0.5)
-            p2_action=brain2.DoAction(game_state,0.1)
+            #p1_action=int(input("Move: "))#A:0-2;D:3-5;P:A:6,D:7,8:H;
+            p1_action=brain1.DoAction(game_state,1)
+            p2_action=brain2.DoAction(game_state,0)
             #save prev state
             game_enviroment.prev_goodStatus=[game_enviroment.goodStatus[0],game_enviroment.goodStatus[1],game_enviroment.goodStatus[2]]
             game_enviroment.prev_evilStatus=[game_enviroment.evilStatus[0],game_enviroment.evilStatus[1],game_enviroment.evilStatus[2]]
@@ -220,6 +222,14 @@ while n_games<max_games_num:
             '''    
             if(game_enviroment.goodStatus[2]<=0 or game_enviroment.evilStatus[2]<=0 ):
                 Game=False
+                if(game_enviroment.goodStatus[2]<=0 and game_enviroment.evilStatus[2]<=0):
+                    #nobody wons
+                    pass
+                else:
+                    if(game_enviroment.evilStatus[2]<=0):
+                        goodwins+=1
+                    else:
+                        evilwins+=1
                 
     
     #save brain1 memories in brain2           
@@ -231,6 +241,10 @@ while n_games<max_games_num:
     
     n_games+=1
     print('\nNewGame',n_games)
+
+
+print("Good Wins",goodwins)
+print("Evil Wins",evilwins)
 
 '''         
 print('\n')           
